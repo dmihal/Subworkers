@@ -9,11 +9,15 @@ try {
 if (isWorker){
   if (!self.Worker){
     self.Worker = function(path){
+      this.id = Math.random().toString(36).substr(2, 5);
+
+
       var location = self.location.pathname;
       var absPath = location.substring(0, location.lastIndexOf('/')) + '/' + path;
       self.postMessage({
         _subworker: true,
         cmd: 'newWorker',
+        id: this.id,
         path: absPath
       });
     };
@@ -39,12 +43,11 @@ if (isWorker){
   }
 }
 
-/* Hijack Worker */
 var allWorkers = {};
-var oldWorker = Worker;
 var cmds = {
   newWorker: function(event){
     var worker = new Worker(event.data.path);
+    allWorkers[event.data.id] = worker;
   }
 }
 var messageRecieved = function(event){
@@ -52,6 +55,10 @@ var messageRecieved = function(event){
     cmds[event.data.cmd](event);
   }
 };
+
+
+/* Hijack Worker */
+var oldWorker = Worker;
 Worker = function(path){
   if (this.constructor !== Worker){
     throw new TypeError("Failed to construct 'Worker': Please use the 'new' operator, this DOM object constructor cannot be called as a function.");
@@ -59,7 +66,5 @@ Worker = function(path){
   var newWorker = new oldWorker(path);
   newWorker.addEventListener("message", messageRecieved);
   
-  allWorkers[path] = newWorker;
-
   return newWorker;
-}
+};
