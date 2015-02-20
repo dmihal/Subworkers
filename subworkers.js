@@ -9,7 +9,11 @@ try {
 if (isWorker){
   if (!self.Worker){
     self.Worker = function(path){
-
+      self.postMessage({
+        _subworker: true,
+        cmd: 'newWorker',
+        path: path
+      });
     };
     Worker.prototype = {
       onerror: null,
@@ -36,8 +40,15 @@ if (isWorker){
 /* Hijack Worker */
 var allWorkers = {};
 var oldWorker = Worker;
+var cmds = {
+  newWorker: function(event){
+    var worker = new Worker(event.data.path);
+  }
+}
 var messageRecieved = function(event){
-
+  if (event.data._subworker){
+    cmds[event.data.cmd](event);
+  }
 };
 Worker = function(path){
   if (this.constructor !== Worker){
