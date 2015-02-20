@@ -28,7 +28,11 @@ if (isWorker){
 
       },
       terminate: function(){
-
+        self.postMessage({
+          _subworker: true,
+          cmd: 'terminate',
+          id: this.id
+        });
       },
       addEventListener: function(type, listener, useCapture){
 
@@ -48,6 +52,9 @@ var cmds = {
   newWorker: function(event){
     var worker = new Worker(event.data.path);
     allWorkers[event.data.id] = worker;
+  },
+  terminate: function(event){
+    allWorkers[event.data.id].terminate();
   }
 }
 var messageRecieved = function(event){
