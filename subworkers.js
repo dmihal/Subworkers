@@ -9,10 +9,12 @@ try {
 if (isWorker){
   if (!self.Worker){
     self.Worker = function(path){
+      var location = self.location.pathname;
+      var absPath = location.substring(0, location.lastIndexOf('/')) + '/' + path;
       self.postMessage({
         _subworker: true,
         cmd: 'newWorker',
-        path: path
+        path: absPath
       });
     };
     Worker.prototype = {
