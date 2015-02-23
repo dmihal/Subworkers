@@ -25,7 +25,12 @@ if (isWorker){
       onerror: null,
       onmessage: null,
       postMessage: function(message){
-
+        self.postMessage({
+          _subworker: true,
+          id: this.id,
+          cmd: 'passMessage',
+          message: message
+        });
       },
       terminate: function(){
         self.postMessage({
@@ -55,6 +60,9 @@ var cmds = {
   },
   terminate: function(event){
     allWorkers[event.data.id].terminate();
+  },
+  passMessage: function(event){
+    allWorkers[event.data.id].postMessage(event.data.message);
   }
 }
 var messageRecieved = function(event){
