@@ -9,8 +9,13 @@ try {
 if (isWorker){
   if (!self.Worker){
     self.Worker = function(path){
+      var that = this;
       this.id = Math.random().toString(36).substr(2, 5);
-
+      self.addEventListener("message", function(e){
+        if (e.data._from === that.id){
+          console.log("Got message", e.data.message);
+        }
+      });
 
       var location = self.location.pathname;
       var absPath = location.substring(0, location.lastIndexOf('/')) + '/' + path;
@@ -56,6 +61,13 @@ var allWorkers = {};
 var cmds = {
   newWorker: function(event){
     var worker = new Worker(event.data.path);
+    worker.addEventListener("message", function(e){
+      var envelope = {
+        _from: event.data.id,
+        message: e.data
+      }
+      event.target.postMessage(envelope);
+    });
     allWorkers[event.data.id] = worker;
   },
   terminate: function(event){
