@@ -11,9 +11,15 @@ if (isWorker){
     self.Worker = function(path){
       var that = this;
       this.id = Math.random().toString(36).substr(2, 5);
+
+      this.eventListeners = {
+        "message": []
+      };
       self.addEventListener("message", function(e){
         if (e.data._from === that.id){
-          console.log("Got message", e.data.message);
+          var newEvent = new MessageEvent("message");
+          newEvent.initMessageEvent("message", false, false, e.data.message, that, "", null, []);
+          that.dispatchEvent(newEvent);
         }
       });
 
@@ -45,13 +51,21 @@ if (isWorker){
         });
       },
       addEventListener: function(type, listener, useCapture){
-
+        if (this.eventListeners[type]){
+          this.eventListeners[type].push(listener);
+        }
       },
       removeEventListener: function(type, listener, useCapture){
-
+        var index = this.eventListeners[type].indexOf(listener);
+        if (index !== -1){
+          this.eventListeners[type].splice(idx, 1);
+        }
       },
       dispatchEvent: function(event){
-
+        var listeners = this.eventListeners[event.type];
+        for (var i = 0; i < listeners.length; i++) {
+          listeners[i](event);
+        }
       }
     };
   }
