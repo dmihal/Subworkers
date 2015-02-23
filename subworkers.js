@@ -20,6 +20,9 @@ if (isWorker){
           var newEvent = new MessageEvent("message");
           newEvent.initMessageEvent("message", false, false, e.data.message, that, "", null, []);
           that.dispatchEvent(newEvent);
+          if (that.onmessage){
+            that.onmessage(newEvent);
+          }
         }
       });
 
