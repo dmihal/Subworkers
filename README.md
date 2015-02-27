@@ -9,13 +9,13 @@ but now subworkers.
 Using this is easy!
 
 1. Download [`subworkers.js`](https://raw.githubusercontent.com/dmihal/Subworkers/master/subworkers.js)
-2. In the document hosting the WebWorkers, include the `subworkers.js` script before
+2. In the document hosting the WebWorkers, include the `subworkers.js` script before any scripts that create WebWorkers.
 
    ``` html
    <script src="subworkers.js"></script>
    ```
 
-3. In the code for any WebWorker that will have a subworker, you also need to include `subworkers.js`
+3. In the code for any WebWorker that will have a subworker, you also need to include `subworkers.js`.
 
    ``` javascript
    importScripts("subworkers.js");
