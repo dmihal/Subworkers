@@ -23,3 +23,5 @@ Using this is easy!
 
 That's it! WebWorkers now work the way you would expect!
 
+## License
+This project is released under the MIT License.
