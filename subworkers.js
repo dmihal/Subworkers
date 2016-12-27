@@ -110,10 +110,10 @@
       throw new TypeError("Failed to construct 'Worker': Please use the 'new' operator, this DOM object constructor cannot be called as a function.");
     }
 
-    if (path.indexOf('blob:') !== -1) {
-      if (path.indexOf('blob:') !== 0 ) {
-        path = 'blob:' + path.split('blob:')[1];
-      }
+    var blobIndex = path.indexOf('blob:');
+    
+    if (blobIndex !== -1 && blobIndex !== 0 ) {
+      path = path.substring(blobIndex);
     }
 
     var newWorker = new oldWorker(path);
