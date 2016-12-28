@@ -109,6 +109,13 @@
     if (this.constructor !== Worker){
       throw new TypeError("Failed to construct 'Worker': Please use the 'new' operator, this DOM object constructor cannot be called as a function.");
     }
+
+    var blobIndex = path.indexOf('blob:');
+    
+    if (blobIndex !== -1 && blobIndex !== 0 ) {
+      path = path.substring(blobIndex);
+    }
+
     var newWorker = new oldWorker(path);
     newWorker.addEventListener("message", messageRecieved);
 
