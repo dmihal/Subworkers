@@ -61,9 +61,10 @@
           }
         },
         removeEventListener: function(type, listener, useCapture){
+          if(!(type in this.eventListeners)) return;
           var index = this.eventListeners[type].indexOf(listener);
           if (index !== -1){
-            this.eventListeners[type].splice(idx, 1);
+            this.eventListeners[type].splice(index, 1);
           }
         },
         dispatchEvent: function(event){
