@@ -1,0 +1,19 @@
+{
+  "name": "subworkers",
+  "version": "1.0.0",
+  "description": "Polyfill to allow nested WebWorkers Edit",
+  "main": "subworkers.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmihal/Subworkers.git"
+  },
+  "author": "David Mihal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dmihal/Subworkers/issues"
+  },
+  "homepage": "https://github.com/dmihal/Subworkers#readme"
+}
