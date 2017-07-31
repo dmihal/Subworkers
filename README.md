@@ -3,7 +3,8 @@ WebWorkers are awesome! Unfortionately, Google Chrome doesn't support creating s
 [here's the Chromium issue for it](https://code.google.com/p/chromium/issues/detail?id=31666).
 
 This polyfill provides this functionality to Chrome and any other browser that supports WebWorkers,
-but now subworkers.
+but not subworkers. This functionality is implemented by creating all subworkers in the context of
+the main page and simulating the communication.
 
 ## Usage
 Using this is easy!
