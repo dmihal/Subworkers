@@ -24,5 +24,16 @@ Using this is easy!
 
 That's it! WebWorkers now work the way you would expect!
 
+### With NPM
+
+1. Install subworkers.js by running `npm install -s subworkers`
+2. Import the library in all scripts
+
+``` javascript
+require('subworkers'); // CommonJS
+// or
+import 'subworkers'; // ES2015+
+```
+
 ## License
 This project is released under the MIT License.
