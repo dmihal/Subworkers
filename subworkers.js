@@ -29,7 +29,8 @@
         });
 
         var location = self.location.pathname;
-        var absPath = location.substring(0, location.lastIndexOf('/')) + '/' + path;
+        var slashedPath = path.charAt(0) == '/' ? path : '/' + path;
+        var absPath = location.substring(0, location.lastIndexOf('/')) + slashedPath;
         self.postMessage({
           _subworker: true,
           cmd: 'newWorker',
