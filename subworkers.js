@@ -41,13 +41,14 @@
       Worker.prototype = {
         onerror: null,
         onmessage: null,
-        postMessage: function(message){
+        postMessage: function(message, transfer){
           self.postMessage({
             _subworker: true,
             id: this.id,
             cmd: 'passMessage',
-            message: message
-          });
+            message: message,
+	    transfer: transfer,
+          }, transfer);
         },
         terminate: function(){
           self.postMessage({
@@ -97,7 +98,7 @@
       allWorkers[event.data.id].terminate();
     },
     passMessage: function(event){
-      allWorkers[event.data.id].postMessage(event.data.message);
+      allWorkers[event.data.id].postMessage(event.data.message, event.data.transfer);
     }
   }
   var messageRecieved = function(event){
