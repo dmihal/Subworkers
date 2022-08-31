@@ -10,7 +10,7 @@
 
   if (isWorker){
     if (!self.Worker){
-      self.Worker = function(path){
+      self.Worker = function(path, options){
         var that = this;
         this.id = Math.random().toString(36).substr(2, 5);
 
@@ -35,7 +35,8 @@
           _subworker: true,
           cmd: 'newWorker',
           id: this.id,
-          path: absPath
+          path: absPath,
+          workerOptions: options,
         });
       };
       Worker.prototype = {
@@ -84,7 +85,7 @@
   var allWorkers = {};
   var cmds = {
     newWorker: function(event){
-      var worker = new Worker(event.data.path);
+      var worker = new Worker(event.data.path, event.data.workerOptions);
       worker.addEventListener("message", function(e){
         var envelope = {
           _from: event.data.id,
@@ -110,18 +111,18 @@
 
   /* Hijack Worker */
   var oldWorker = Worker;
-  Worker = function(path){
+  Worker = function(path, options){
     if (this.constructor !== Worker){
       throw new TypeError("Failed to construct 'Worker': Please use the 'new' operator, this DOM object constructor cannot be called as a function.");
     }
 
     var blobIndex = path.indexOf('blob:');
-    
+
     if (blobIndex !== -1 && blobIndex !== 0 ) {
       path = path.substring(blobIndex);
     }
 
-    var newWorker = new oldWorker(path);
+    var newWorker = new oldWorker(path, options);
     newWorker.addEventListener("message", messageRecieved);
 
     return newWorker;
