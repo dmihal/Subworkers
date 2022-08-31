@@ -1,8 +1,8 @@
 # Subworkers
-WebWorkers are awesome! Unfortionately, Google Chrome doesn't support creating subworkers,
-[here's the Chromium issue for it](https://code.google.com/p/chromium/issues/detail?id=31666).
+WebWorkers are awesome! Unfortionately, Safari doesn't support creating subworkers,
+[here's the WebKit issue for it](https://bugs.webkit.org/show_bug.cgi?id=22723).
 
-This polyfill provides this functionality to Chrome and any other browser that supports WebWorkers,
+This polyfill provides this functionality to Safari and any other browser that supports WebWorkers,
 but not subworkers. This functionality is implemented by creating all subworkers in the context of
 the main page and simulating the communication.
 
