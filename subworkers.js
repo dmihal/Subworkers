@@ -18,7 +18,7 @@
           "message": []
         };
         self.addEventListener("message", function(e){
-          if (e.data._from === that.id){
+          if (e.data && e.data._from === that.id){
             var newEvent = new MessageEvent("message");
             newEvent.initMessageEvent("message", false, false, e.data.message, that, "", null, []);
             that.dispatchEvent(newEvent);
@@ -102,7 +102,7 @@
     }
   }
   var messageRecieved = function(event){
-    if (event.data._subworker){
+    if (event.data && event.data._subworker){
       cmds[event.data.cmd](event);
     }
   };
@@ -116,7 +116,7 @@
     }
 
     var blobIndex = path.indexOf('blob:');
-    
+
     if (blobIndex !== -1 && blobIndex !== 0 ) {
       path = path.substring(blobIndex);
     }
